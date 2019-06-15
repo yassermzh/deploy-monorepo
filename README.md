@@ -28,7 +28,7 @@ in which the `notify` package is a deployable one, and `email` package is a depe
   lerna bootstrap --hoist
   ```
 - add dependencies
-  Here adding `@company/email` to notify `@company/package`. As you notice, it uses `@company` to scope npm packages.
+  Here adding `@company/email` to `@company/notify`. As you notice, we use `@company` to scope npm packages.
   ```bash
   lerna add @company/email --scope @company/notify
   ```
