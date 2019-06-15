@@ -1,0 +1,20 @@
+node {
+  checkout scm
+  dir ('packages/notify/scripts') {
+    stage('deploy notify to staging') {
+      if (BRANCH_NAME == 'develop') {
+        echo 'deploying...'
+        sh 'make run-stg'
+        echo 'deploying...done!'
+      }
+    }
+    stage('deploy notify to production') {
+      if (BRANCH_NAME == 'master') {
+        echo 'deploying...'
+        sh 'make run-prod'
+        echo 'deploying...done!'
+      }
+    }
+  }
+}
+

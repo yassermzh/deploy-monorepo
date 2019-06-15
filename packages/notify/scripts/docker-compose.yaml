@@ -1,0 +1,25 @@
+version: "3"
+services:
+
+  notify-server:
+    build:
+      context: ../
+      dockerfile: ./scripts/Dockerfile
+    image: company/notify
+    command: node bin/server.js
+    networks:
+      - net
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - notify-config:/app/dist/config/environments
+    restart: always
+
+networks:
+  net:
+
+volumes:
+  notify-data:
+    external: true
+  notify-config:
+    external: true

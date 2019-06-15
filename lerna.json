@@ -1,0 +1,16 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "publish": {
+    "allowBranch": "master",
+    "conventionalCommits": true,
+    "gitRemote": "origin",
+    "message": "chore(release): publish %s"
+  },
+  "ignoreChanges": [
+    "**/*test.js",
+    "**/*.md"
+  ],
+  "version": "independent"
+}

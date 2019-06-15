@@ -1,0 +1,14 @@
+**/node_modules/*
+**/bower_components/
+**/.tmp/
+**/dist/
+**/coverage/
+
+.vscode/
+.idea/
+*.sublime-workspace
+
+**/config/environments/development.js
+**/config/environments/production.js
+
+*.log

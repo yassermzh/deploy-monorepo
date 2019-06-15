@@ -1,0 +1,6 @@
+version: "3"
+services:
+  notify-server:
+    image: company/notify:stg
+    environment:
+      - NODE_ENV=staging

@@ -1,0 +1,16 @@
+{
+  "name": "@company/notify",
+  "version": "0.0.1",
+  "description": "A notification manager",
+  "main": "bin/index.js",
+  "scripts": {
+    "start": "node bin/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@company/email": "^0.0.1",
+    "express": "^4.17.1"
+  }
+}

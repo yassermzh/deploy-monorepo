@@ -1,0 +1,60 @@
+def isChanged(path, commit, prevCommit) {
+  echo "isChanged called: ${path} ${commit}"
+  def out = sh(
+    returnStdout: true,
+    script: "sh packages/tasks/detect-changes.sh ${path} ${commit} ${prevCommit}"
+  ).trim()
+  echo "out= $out"
+  return 'true' == out
+}
+
+def lastCommitMessage() {
+  return sh(
+    returnStdout: true,
+    script: "git log -n 1 --pretty=format:'%B'"
+  ).trim()
+}
+
+def checkPackage(pkg, ctx) {
+  return (
+    isChanged("packages/${pkg}/", ctx.GIT_COMMIT, ctx.GIT_PREV_COMMIT) ||
+    ctx.COMMIT_MSG.endsWith("deploy ${pkg}") ||
+    ctx.COMMIT_MSG.contains("deploy all")
+  )
+}
+
+def checkPackages(packages, ctx) {
+  try {
+    packages.each { pkg ->
+      echo "package ${pkg}..."
+      echo "changed? ${checkPackage(pkg, ctx)}"
+      if (checkPackage(pkg, ctx)) {
+        echo "loading Jenkinsfile of ${pkg}..."
+        load "./packages/${pkg}/scripts/Jenkinsfile"
+      }
+      echo "${pkg} done"
+    }
+  } catch (Exception e) {
+    echo "failed: ${e.getMessage()}"
+  }
+}
+
+node {
+  def ctx = [:]
+
+  stage('checkout') {
+    def scmVars = checkout(scm)
+    ctx.GIT_COMMIT = scmVars.GIT_COMMIT
+    ctx.GIT_PREV_COMMIT = scmVars.GIT_PREVIOUS_COMMIT
+    ctx.COMMIT_MSG = lastCommitMessage()
+  }
+
+  def packages = [
+    'notify',
+  ]
+
+  echo "ctx=$ctx"
+  dir('fullstack') {
+    checkPackages(packages, ctx)
+  }
+}
