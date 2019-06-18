@@ -54,7 +54,5 @@ node {
   ]
 
   echo "ctx=$ctx"
-  dir('fullstack') {
-    checkPackages(packages, ctx)
-  }
+  checkPackages(packages, ctx)
 }
